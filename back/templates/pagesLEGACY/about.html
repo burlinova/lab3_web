@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>О нас | Туроператор "Золотая Середина"</title>
+        <link rel="stylesheet" href="../static/styles.css" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <!-- Шапка сайта -->
+        <header>
+            <img src="../static/logo.png" alt="Логотип" />
+            <h1>Туроператор "Золотая Середина"</h1>
+
+            <button
+                type="button"
+                data-bs-toggle="modal"
+                id="cartButton"
+                class="cart-button"
+                data-bs-target="#cartModal"
+            >
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count">0</span>
+            </button>
+        </header>
+        <div class="nav-container">
+            <!-- Навигация -->
+            <nav>
+                <a href="/">Главная</a>
+                <a href="/products">Услуги</a>
+                <a href="/uslugi">Контакты</a>
+                <a href="/about">О нас</a>
+            </nav>
+
+            <!-- Кнопки Вход и Регистрация -->
+            {{if .User}}
+            <div class="user-greeting">
+                <span class="greeting-text"
+                    >Привет, <strong>{{ .User }}</strong></span
+                >
+                <button
+                    class="logout-button"
+                    onclick="window.location.href='/logout'"
+                >
+                    Выйти
+                </button>
+            </div>
+            {{else}}
+            <!-- Кнопки Вход и Регистрация -->
+            <div class="btn-container">
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#loginModal"
+                >
+                    Вход
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#registerModal"
+                >
+                    Регистрация
+                </button>
+            </div>
+
+            <!-- form action="/login" method="post">
+                    <input type="text" id="username" name="username" required placeholder="Логин">
+                    <input type="password" id="password" name="password" required placeholder="Пароль">
+                    <div class="buttonslogin">
+                        <button type="submit">Войти</button>
+                        <button type="button" onclick="window.location.href='/reg';">Регистрация</button>
+                    </div>
+                </form -->
+            {{end}}
+        </div>
+
+        <!-- Основной контейнер -->
+        <div class="container">
+            <aside class="sidebar">
+                <h3>Разделы</h3>
+                <a href="/petersburg">Экскурсия в Нижний Новгород</a>
+                <a href="/caucasus">Что посмотреть в области</a>
+                <a href="/golden_ring">Факты о Дивеево</a>
+            </aside>
+
+            <!-- Основное содержание -->
+            <section class="main-content">
+                <h2>О компании "Золотая Середина"</h2>
+                <p>
+                    Туристическая компания "Золотая Середина" осуществляет
+                    туроператорскую деятельность с <strong>2004 года</strong>.
+                    Мы являемся официальным туроператором и внесены в
+                    <strong>Единый федеральный реестр туроператоров</strong> под
+                    номером <strong>РТО 006197</strong>.
+                </p>
+
+                <p>
+                    Наша деятельность одобрена Федеральным агентством по туризму
+                    РФ и застрахована. Мы предлагаем экскурсии из Москвы и более
+                    чем 30 городов Подмосковья.
+                </p>
+
+                <h3>Почему выбирают нас?</h3>
+                <ul>
+                    <li>
+                        <strong>Опытные гиды:</strong> экскурсии проводят
+                        профессиональные экскурсоводы.
+                    </li>
+                    <li>
+                        <strong>Комфортный транспорт:</strong> современные
+                        автобусы с климат-контролем, откидными сиденьями,
+                        туалетами и ТВ.
+                    </li>
+                    <li>
+                        <strong>Безопасность:</strong> все автобусы проходят
+                        тщательный техосмотр перед поездкой.
+                    </li>
+                    <li>
+                        <strong>Гибкость:</strong> возможность выбора
+                        размещения, типа питания и посадочного места.
+                    </li>
+                </ul>
+
+                <h3>Наша миссия</h3>
+                <p>
+                    Создавать незабываемые путешествия для наших клиентов,
+                    открывать новые маршруты и обеспечивать высокий уровень
+                    сервиса на каждом этапе поездки.
+                </p>
+
+                <h3>Наша команда</h3>
+                <p>
+                    Мы гордимся нашей командой гидов, водителей и менеджеров.
+                    Каждый из них — профессионал своего дела, готовый сделать
+                    вашу поездку комфортной и интересной.
+                </p>
+            </section>
+
+            <!-- Правая колонка с баннерами -->
+            <aside class="banners">
+                <h3>Наши партнёры</h3>
+                <a href="https://ostrovok.ru" target="_blank">
+                    <img src="../static/banner1.png" alt="Островок" />
+                </a>
+                <a href="https://aeroflot.ru" target="_blank">
+                    <img src="../static/banner2.png" alt="Аэрофлот" />
+                </a>
+                <a href="https://tourpom.ru" target="_blank">
+                    <img src="../static/banner3.png" alt="Турпомощь" />
+                </a>
+            </aside>
+        </div>
+
+        <!-- Подвал -->
+        <footer>
+            <p>© 2024 Туроператор "Золотая Середина". Все права защищены.</p>
+            <p>
+                <a href="mailto:zakaz.goldenmiddle@mail.ru"
+                    >zakaz.goldenmiddle@mail.ru</a
+                >
+                | Телефон: <a href="tel:+74952239276">8 (495) 223-92-76</a>
+            </p>
+        </footer>
+    </body>
+
+    <!-- Модальное окно Регистрация -->
+    <div
+        class="modal fade"
+        id="registerModal"
+        tabindex="-1"
+        aria-labelledby="registerModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">
+                        Регистрация
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/reg" method="post">
+                        <div class="mb-3">
+                            <label for="login" class="form-label">Логин</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="login"
+                                name="login"
+                                placeholder="Введите ваш логин"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="Введите ваш email"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label"
+                                >Пароль</label
+                            >
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Придумайте пароль"
+                            />
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            Зарегистрироваться
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="modal fade"
+        id="loginModal"
+        tabindex="-1"
+        aria-labelledby="loginModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Вход</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <form action="/login" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label"
+                                >Логин</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="username"
+                                name="username"
+                                placeholder="Введите ваш логин"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label"
+                                >Пароль</label
+                            >
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Введите ваш пароль"
+                            />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            Войти
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="modal fade"
+        id="cartModal"
+        tabindex="-1"
+        aria-labelledby="cartModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Корзина</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="cartItems"></div>
+                    <div id="cartItems"></div>
+                    <div class="cart-summary">
+                        <div>
+                            <label>Суммарная стоимость:</label>
+                            <span id="totalCost">0.00 ₽</span>
+                        </div>
+                        <div>
+                            <label>Скидка:</label>
+                            <span id="discount">0.00 ₽</span>
+                        </div>
+                        <div>
+                            <label>Итоговая стоимость:</label>
+                            <span id="finalCost">0.00 ₽</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/cart.js"></script>
+</html>

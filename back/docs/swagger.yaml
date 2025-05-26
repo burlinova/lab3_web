@@ -1,0 +1,174 @@
+definitions:
+  main.user:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a proxy server that serves data from DWH.
+  license:
+    name: Rosinka 1.0
+  title: Rosinka admin panel
+  version: "1.0"
+paths:
+  /admin/get-all-emails:
+    get:
+      description: Достает из БД все почты пользователей
+      produces:
+      - text/csv
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Получить все почты пользователей из базы
+  /admin/get-all-ids:
+    get:
+      description: Достает из БД всех ID пользователей
+      produces:
+      - text/csv
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Получить все ID пользователей из базы
+  /admin/get-all-names:
+    get:
+      description: Достает из БД всех имена пользователей
+      produces:
+      - text/csv
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Получить всех имена пользователей из базы
+  /admin/get-all-users:
+    get:
+      description: Достает из базы всех пользователей
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Получить всех пользователей из базы
+  /admin/get-all-users-count:
+    get:
+      description: Достает из базы количество всех пользовательей
+      produces:
+      - plain/text
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Получить количество всех пользователей из базы
+  /admin/get-email-by-id:
+    get:
+      description: Ищет пользователя в базе данных по айди, и возвращает его почту
+      parameters:
+      - description: ID пользователя
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - plain/text
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Получить email пользователя, по его айди
+  /admin/get-user-by-email:
+    get:
+      description: Ищет пользователя в базе данных по почте, и возвращает всю информацию
+        о нем
+      parameters:
+      - description: EMail пользователя
+        in: query
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.user'
+      security:
+      - BearerAuth: []
+      summary: Получить пользователя по почте
+  /admin/get-user-by-id:
+    get:
+      description: Ищет пользователя в базе данных по айди, и возвращает всю информацию
+        о нем
+      parameters:
+      - description: ID пользователя
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.user'
+      security:
+      - BearerAuth: []
+      summary: Получить пользователя по айди
+  /admin/get-user-by-name:
+    get:
+      description: Ищет пользователя в базе данных по имени, и возвращает всю информацию
+        о нем
+      parameters:
+      - description: Имя пользователя
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.user'
+      security:
+      - BearerAuth: []
+      summary: Получить пользователя по имени
+  /admin/get-username-by-id:
+    get:
+      description: Ищет пользователя в базе данных по айди, и возвращает его имя
+      parameters:
+      - description: ID пользователя
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - plain/text
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Получить имя пользователя, по его айди
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

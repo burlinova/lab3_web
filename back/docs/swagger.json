@@ -1,0 +1,282 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a proxy server that serves data from DWH.",
+        "title": "Rosinka admin panel",
+        "contact": {},
+        "license": {
+            "name": "Rosinka 1.0"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/admin/get-all-emails": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Достает из БД все почты пользователей",
+                "produces": [
+                    "text/csv"
+                ],
+                "summary": "Получить все почты пользователей из базы",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/admin/get-all-ids": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Достает из БД всех ID пользователей",
+                "produces": [
+                    "text/csv"
+                ],
+                "summary": "Получить все ID пользователей из базы",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/admin/get-all-names": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Достает из БД всех имена пользователей",
+                "produces": [
+                    "text/csv"
+                ],
+                "summary": "Получить всех имена пользователей из базы",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/admin/get-all-users": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Достает из базы всех пользователей",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получить всех пользователей из базы",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/admin/get-all-users-count": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Достает из базы количество всех пользовательей",
+                "produces": [
+                    "plain/text"
+                ],
+                "summary": "Получить количество всех пользователей из базы",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/admin/get-email-by-id": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Ищет пользователя в базе данных по айди, и возвращает его почту",
+                "produces": [
+                    "plain/text"
+                ],
+                "summary": "Получить email пользователя, по его айди",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/admin/get-user-by-email": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Ищет пользователя в базе данных по почте, и возвращает всю информацию о нем",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получить пользователя по почте",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "EMail пользователя",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.user"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/get-user-by-id": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Ищет пользователя в базе данных по айди, и возвращает всю информацию о нем",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получить пользователя по айди",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.user"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/get-user-by-name": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Ищет пользователя в базе данных по имени, и возвращает всю информацию о нем",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получить пользователя по имени",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Имя пользователя",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.user"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/get-username-by-id": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Ищет пользователя в базе данных по айди, и возвращает его имя",
+                "produces": [
+                    "plain/text"
+                ],
+                "summary": "Получить имя пользователя, по его айди",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.user": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

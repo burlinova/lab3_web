@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты | ТРЦ Атриум</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Стили для шапки и навигации, как на главной странице */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            max-height: 50px;
+            margin-right: 10px;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        .search-container input {
+            border-radius: 20px 0 0 20px;
+            border-right: none;
+        }
+        .search-container button {
+            border-radius: 0 20px 20px 0;
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header-container">
+        <div class="logo-container">
+            <img src="logo.png" alt="Логотип ТРЦ Атриум">
+            <h1>ТРЦ Атриум</h1>
+        </div>
+        <div class="btn-container">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                Вход
+            </button>
+            <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">
+                Регистрация
+            </button>
+        </div>
+    </header>
+
+    <!-- Навигация и поиск -->
+    <div class="nav-container">
+        <nav class="nav-menu">
+            <a href="index.html">Главная</a>
+            <a href="catalog.html">Каталог</a>
+            <a href="contacts.html">Контакты</a>
+            <a href="about.html">О нас</a>
+            <a href="guestbook.html">Гостевая книга</a>
+        </nav>
+        <div class="search-container">
+            <input type="text" class="form-control" id="searchInput" placeholder="Поиск по сайту..." aria-label="Поиск">
+            <button type="button" class="btn btn-primary" onclick="performSearch()">Найти</button>
+        </div>
+    </div>
+
+    <!-- Основной контейнер -->
+    <div class="container">
+        <!-- Боковое меню -->
+        <aside class="sidebar">
+            <h3>Полезные разделы</h3>
+            <a href="cinema_item.html">Кинотеатр</a>
+            <a href="shops_item.html">Магазины</a>
+            <a href="food_item.html">Еда</a>
+            <a href="kids_item.html">Детям</a>
+        </aside>
+
+        <!-- Основной контент -->
+        <section class="main-content">
+            <h2>Контактная информация</h2>
+            <p>
+                <strong>Единый центр информации:</strong>
+                <a href="tel:+74951234567">+7 (495) 123-45-67</a> (с 10:00 до 22:00, ежедневно)
+            </p>
+            <p>
+                <strong>Email:</strong>
+                <a href="mailto:info@atrium.ru">info@atrium.ru</a>
+            </p>
+
+            <h3>Реквизиты компании</h3>
+            <ul>
+                <li><strong>ООО «Атриум»</strong></li>
+                <li>Генеральный директор: Иванов Сергей Александрович</li>
+                <li>Адрес: 115054, г. Москва, ул. Центральная, д. 10, пом. 1/3</li>
+                <li>ИНН: 7701234567 | КПП: 770101001</li>
+                <li>Расчётный счёт: 40702810431030000123</li>
+                <li>Банк: Сбербанк (ПАО), г. Москва</li>
+                <li>БИК: 044525225 | Корр. счёт: 30101810400000000225</li>
+            </ul>
+
+            <h3>ИП Иванов Сергей Александрович</h3>
+            <ul>
+                <li>Адрес: г. Москва, ул. Центральная, д. 10, кв. 100</li>
+                <li>ИНН: 770123456789</li>
+                <li>Расчётный счёт: 40802810901770012345</li>
+                <li>Банк: АО «Тинькофф Банк»</li>
+                <li>БИК: 044525974</li>
+            </ul>
+
+            <!-- Карта -->
+            <h3>Наш торговый центр</h3>
+            <p>
+                Мы находимся по адресу: г. Москва, ул. Центральная, д. 10.
+            </p>
+            <div class="map-container" id="map"></div>
+        </section>
+
+        <!-- Баннеры -->
+        <aside class="banners">
+            <h3>Наши партнёры</h3>
+            <a href="https://zara.com" target="_blank">
+                <img src="zara_banner.png" alt="Zara">
+            </a>
+            <a href="https://starbucks.com" target="_blank">
+                <img src="starbucks_banner.png" alt="Starbucks">
+            </a>
+            <a href="https://nike.com" target="_blank">
+                <img src="nike_banner.png" alt="Nike">
+            </a>
+        </aside>
+    </div>
+
+    <!-- Подвал -->
+    <footer>
+        <p>© 2025 ТРЦ Атриум. Все права защищены.</p>
+        <p>
+            <a href="mailto:info@atrium.ru">info@atrium.ru</a> |
+            Телефон: <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+        </p>
+    </footer>
+
+    <!-- Модальные окна -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Вход</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="submit_login.php" method="post">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" name="email" placeholder="Введите ваш email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Введите ваш пароль" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Войти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Регистрация</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="submit_register.php" method="post">
+                        <div class="mb-3">
+                            <label for="registerName" class="form-label">Имя</label>
+                            <input type="text" class="form-control" id="registerName" name="name" placeholder="Введите ваше имя" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Введите ваш email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Придумайте пароль" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Яндекс.Карты -->
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+    <script>
+        ymaps.ready(function () {
+            var myMap = new ymaps.Map("map", {
+                center: [55.7558, 37.6173], // Координаты центра Москвы
+                zoom: 15
+            });
+            var myPlacemark = new ymaps.Placemark([55.7558, 37.6173], {
+                hintContent: 'ТРЦ Атриум',
+                balloonContent: 'г. Москва, ул. Центральная, д. 10'
+            });
+            myMap.geoObjects.add(myPlacemark);
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Predefined searchable items
+        const searchData = [
+            { title: "Главная", description: "Главная страница ТРЦ Атриум", url: "index.html" },
+            { title: "Каталог", description: "Список магазинов и услуг", url: "catalog.html" },
+            { title: "Контакты", description: "Контактная информация ТРЦ", url: "contacts.html" },
+            { title: "О нас", description: "Информация о ТРЦ Атриум", url: "about.html" },
+            { title: "Гостевая книга", description: "Оставьте ваш отзыв", url: "guestbook.html" },
+            { title: "Кинотеатр", description: "Современный кинотеатр с IMAX", url: "cinema_item.html" },
+            { title: "Магазины", description: "Более 50 магазинов с одеждой и электроникой", url: "shops_item.html" },
+            { title: "Еда", description: "Рестораны и кафе с кухнями мира", url: "food_item.html" },
+            { title: "Детям", description: "Детские зоны и развлечения", url: "kids_item.html" }
+        ];
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultsContainer = document.createElement('div');
+            resultsContainer.className = 'container my-4';
+            resultsContainer.id = 'searchResults';
+            resultsContainer.innerHTML = '<h2>Результаты поиска</h2><div id="resultsList" class="list-group"></div>';
+
+            // Удаляем предыдущие результаты, если есть
+            const existingResults = document.getElementById('searchResults');
+            if (existingResults) existingResults.remove();
+
+            // Вставляем результаты перед футером
+            document.querySelector('footer').before(resultsContainer);
+            const resultsList = document.getElementById('resultsList');
+
+            if (query.trim() === '') {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            const results = searchData.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.description.toLowerCase().includes(query)
+            );
+
+            if (results.length === 0) {
+                resultsList.innerHTML = '<p class="text-muted">Ничего не найдено.</p>';
+            } else {
+                results.forEach(item => {
+                    const resultItem = document.createElement('a');
+                    resultItem.href = item.url;
+                    resultItem.className = 'list-group-item list-group-item-action';
+                    resultItem.innerHTML = `<h5 class="mb-1">${item.title}</h5><p class="mb-1">${item.description}</p>`;
+                    resultsList.appendChild(resultItem);
+                });
+            }
+
+            resultsContainer.style.display = 'block';
+        }
+
+        // Trigger search on Enter key press
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    </script>
+</body>
+</html>

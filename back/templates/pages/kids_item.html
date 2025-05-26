@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детям | ТРЦ Атриум</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Стили для шапки и навигации, как на главной странице */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            max-height: 50px;
+            margin-right: 10px;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        .search-container input {
+            border-radius: 20px 0 0 20px;
+            border-right: none;
+        }
+        .search-container button {
+            border-radius: 0 20px 20px 0;
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+            color: #ffffff;
+        }
+        /* Стили для карточек детских зон */
+        .kids-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .kids-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: box-shadow 0.3s;
+            text-align: center;
+        }
+        .kids-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .kids-card h3 {
+            margin-top: 0;
+            font-size: 1.25rem;
+        }
+        /* Стили для изображений в модальных окнах */
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header-container">
+        <div class="logo-container">
+            <img src="logo.png" alt="Логотип ТРЦ Атриум">
+            <h1>ТРЦ Атриум</h1>
+        </div>
+        <div class="btn-container">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                Вход
+            </button>
+            <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">
+                Регистрация
+            </button>
+        </div>
+    </header>
+
+    <!-- Навигация и поиск -->
+    <div class="nav-container">
+        <nav class="nav-menu">
+            <a href="index">Главная</a>
+            <a href="catalog">Каталог</a>
+            <a href="contacts">Контакты</a>
+            <a href="about">О нас</a>
+            <a href="guestbook">Гостевая книга</a>
+        </nav>
+        <div class="search-container">
+            <input type="text" class="form-control" id="searchInput" placeholder="Поиск по сайту..." aria-label="Поиск">
+            <button type="button" class="btn btn-primary" onclick="performSearch()">Найти</button>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <main class="content">
+        <h1>Детям в ТРЦ Атриум</h1>
+        <section class="main-content">
+            <!-- Карточки детских зон -->
+            <div class="kids-container">
+                <div class="kids-card" data-bs-toggle="modal" data-bs-target="#labyrinthModal">
+                    <h3>Лабиринт</h3>
+                    <p><strong>Время работы:</strong> 10:00–20:00</p>
+                    <p>Игровая площадка с лабиринтами и горками.</p>
+                    <button type="button" class="btn btn-link">Подробнее</button>
+                </div>
+                <div class="kids-card" data-bs-toggle="modal" data-bs-target="#jumpModal">
+                    <h3>Прыг-Скок</h3>
+                    <p><strong>Время работы:</strong> 10:00–20:00</p>
+                    <p>Батутный центр для активных детей.</p>
+                    <button type="button" class="btn btn-link">Подробнее</button>
+                </div>
+                <div class="kids-card" data-bs-toggle="modal" data-bs-target="#createModal">
+                    <h3>Творим Вместе</h3>
+                    <p><strong>Время работы:</strong> 12:00–18:00</p>
+                    <p>Мастер-классы по рисованию и лепке.</p>
+                    <button type="button" class="btn btn-link">Подробнее</button>
+                </div>
+                <div class="kids-card" data-bs-toggle="modal" data-bs-target="#heroesModal">
+                    <h3>Весёлые Герои</h3>
+                    <p><strong>Время работы:</strong> 14:00–19:00</p>
+                    <p>Анимационные шоу с персонажами.</p>
+                    <button type="button" class="btn btn-link">Подробнее</button>
+                </div>
+            </div>
+
+            <h2>Краткое описание</h2>
+            <p class="short-desc">
+                <a href="kids_full.jpg" target="_blank">
+                    <img src="детям.jpg" alt="Детям" class="main-image">
+                </a>
+                Веселые развлечения и активности для детей всех возрастов.
+            </p>
+            <h2>Характеристики</h2>
+            <ul>
+                <li>Зоны: игровые площадки, мастер-классы, анимация</li>
+                <li>Возраст: от 3 до 12 лет</li>
+                <li>Особенности: безопасные материалы, профессиональные аниматоры</li>
+                <li>Расположение: 3-й этаж</li>
+            </ul>
+            <h2>Подробное описание</h2>
+            <p class="detailed-desc">
+                Детские зоны ТРЦ Атриум — это место, где дети могут играть, учиться и веселиться. Игровые площадки с лабиринтами и батутами, творческие мастер-классы и шоу с аниматорами создают идеальные условия для семейного отдыха. Все зоны безопасны и разработаны с учетом потребностей юных гостей.
+            </p>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <p>© 2025 ТРЦ Атриум. Все права защищены.</p>
+        <div>
+            <a href="https://vk.com">ВКонтакте</a>
+            <a href="https://t.me">Telegram</a>
+            <a href="https://instagram.com">Instagram</a>
+        </div>
+    </footer>
+
+    <!-- Модальные окна для детских зон -->
+    <div class="modal fade" id="labyrinthModal" tabindex="-1" aria-labelledby="labyrinthModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labyrinthModalLabel">Игровая площадка Лабиринт в ТРЦ Атриум</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="labyrinth_zone.jpg" alt="Лабиринт" class="img-fluid mb-3">
+                    <h3>О зоне Лабиринт</h3>
+                    <p>Игровая площадка «Лабиринт» на 3-м этаже ТРЦ Атриум (Земляной Вал, 33) — это увлекательное пространство с многоуровневыми лабиринтами, горками и туннелями для детей.</p>
+                    <h4>Характеристики</h4>
+                    <ul>
+                        <li><strong>Тип:</strong> Игровая площадка (лабиринты, горки).</li>
+                        <li><strong>Возраст:</strong> 3–10 лет.</li>
+                        <li><strong>Особенности:</strong> Безопасные материалы, зоны для родителей.</li>
+                        <li><strong>Время работы:</strong> 10:00–20:00 (ежедневно).</li>
+                    </ul>
+                    <h4>Советы посетителям</h4>
+                    <p>Приходите в будни утром, чтобы избежать толпы. Убедитесь, что ребёнок в удобной одежде и носках.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="jumpModal" tabindex="-1" aria-labelledby="jumpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jumpModalLabel">Батутный центр Прыг-Скок в ТРЦ Атриум</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="jump_zone.jpg" alt="Прыг-Скок" class="img-fluid mb-3">
+                    <h3>О зоне Прыг-Скок</h3>
+                    <p>Батутный центр «Прыг-Скок» на 3-м этаже ТРЦ Атриум — это место для активных игр с батутами и поролоновой ямой.</p>
+                    <h4>Характеристики</h4>
+                    <ul>
+                        <li><strong>Тип:</strong> Батутный центр.</li>
+                        <li><strong>Возраст:</strong> 4–12 лет.</li>
+                        <li><strong>Особенности:</strong> Инструкторы, безопасные батуты.</li>
+                        <li><strong>Время работы:</strong> 10:00–20:00 (ежедневно).</li>
+                    </ul>
+                    <h4>Советы посетителям</h4>
+                    <p>Бронируйте сеанс заранее в выходные. Дети должны быть в спортивной одежде и специальных носках.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Мастер-классы Творим Вместе в ТРЦ Атриум</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="create_zone.jpg" alt="Творим Вместе" class="img-fluid mb-3">
+                    <h3>О зоне Творим Вместе</h3>
+                    <p>Мастер-классы «Творим Вместе» на 3-м этаже ТРЦ Атриум предлагают детям занятия по рисованию, лепке и созданию поделок.</p>
+                    <h4>Характеристики</h4>
+                    <ul>
+                        <li><strong>Тип:</strong> Творческие мастер-классы.</li>
+                        <li><strong>Возраст:</strong> 5–12 лет.</li>
+                        <li><strong>Особенности:</strong> Профессиональные педагоги, экологичные материалы.</li>
+                        <li><strong>Время работы:</strong> 12:00–18:00 (ежедневно).</li>
+                    </ul>
+                    <h4>Советы посетителям</h4>
+                    <p>Записывайтесь на мастер-классы заранее через сайт ТРЦ. Приносите сменную одежду для защиты от красок.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="heroesModal" tabindex="-1" aria-labelledby="heroesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="heroesModalLabel">Анимация Весёлые Герои в ТРЦ Атриум</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="heroes_zone.jpg" alt="Весёлые Герои" class="img-fluid mb-3">
+                    <h3>О зоне Весёлые Герои</h3>
+                    <p>Анимационная программа «Весёлые Герои» на 3-м этаже ТРЦ Атриум — это интерактивные шоу с любимыми персонажами для детей.</p>
+                    <h4>Характеристики</h4>
+                    <ul>
+                        <li><strong>Тип:</strong> Анимационные шоу.</li>
+                        <li><strong>Возраст:</strong> 3–10 лет.</li>
+                        <li><strong>Особенности:</strong> Профессиональные аниматоры, интерактивные игры.</li>
+                        <li><strong>Время работы:</strong> 14:00–19:00 (ежедневно).</li>
+                    </ul>
+                    <h4>Советы посетителям</h4>
+                    <p>Проверяйте расписание шоу на сайте ТРЦ. Приходите за 10 минут до начала, чтобы занять лучшие места.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна для входа и регистрации -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Вход</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="submit_login.php" method="post">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" name="email" placeholder="Введите ваш email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Введите ваш пароль" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Войти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Регистрация</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="submit_register.php" method="post">
+                        <div class="mb-3">
+                            <label for="registerName" class="form-label">Имя</label>
+                            <input type="text" class="form-control" id="registerName" name="name" placeholder="Введите ваше имя" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Введите ваш email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Пароль" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Зарегистрировать</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Predefined searchable items
+        const searchData = [
+            { title: "Главная", description: "Главная страница ТРЦ Атриум", url: "index" },
+            { title: "Каталог", description: "Список магазинов и услуг", url: "catalog" },
+            { title: "Контакты", description="Контактная информация ТРЦ", url: "contacts" },
+            { title: "О нас", description: "Информация о ТРЦ Атриум", url: "about" },
+            { title: "Гостевая книга", description: "Оставьте ваш отзыв", url: "guestbook" },
+            { title: "Кинотеатр", description: "Современный кинотеатр с IMAX", url: "cinema_item" },
+            { title: "Магазины", description: "Более 50 магазинов с одеждой и электроникой", url: "shops_item" },
+            { title: "Еда", description: "Рестораны и кафе с кухнями мира", url: "food_item" },
+            { title: "Детям", description: "Детские зоны и развлечения", url: "kids_item" },
+            { title: "Лабиринт", description: "Игровая площадка с лабиринтами и горками", url: "kids_item#labyrinth" },
+            { title: "Прыг-Скок", description: "Батутный центр для активных детей", url: "kids_item#jump" },
+            { title: "Творим Вместе", description: "Мастер-классы по рисованию и лепке", url: "kids_item#create" },
+            { title: "Весёлые Герои", description: "Анимационные шоу с персонажами", url: "kids_item#heroes" }
+        ];
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultsContainer = document.createElement('div');
+            resultsContainer.className = 'container my-4';
+            resultsContainer.id = 'searchResults';
+            resultsContainer.innerHTML = '<h2>Результаты поиска</h2><div id="resultsList" class="list-group"></div>';
+
+            // Удаляем предыдущие результаты, если есть
+            const existingResults = document.getElementById('searchResults');
+            if (existingResults) existingResults.remove();
+
+            // Вставляем результаты перед футером
+            document.querySelector('footer').before(resultsContainer);
+            const resultsList = document.getElementById('resultsList');
+
+            if (query.trim() === '') {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            const results = searchData.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.description.toLowerCase().includes(query)
+            );
+
+            if (results.length === 0) {
+                resultsList.innerHTML = '<p class="text-muted">Ничего не найдено.</p>';
+            } else {
+                results.forEach(item => {
+                    const resultItem = document.createElement('a');
+                    resultItem.href = item.url;
+                    resultItem.className = 'list-group-item list-group-item-action';
+                    resultItem.innerHTML = `<h5 class="mb-1">${item.title}</h5><p class="mb-1">${item.description}</p>`;
+                    resultsList.appendChild(resultItem);
+                });
+            }
+
+            resultsContainer.style.display = 'block';
+        }
+
+        // Запуск поиска по нажатию Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    </script>
+</body>
+</html>

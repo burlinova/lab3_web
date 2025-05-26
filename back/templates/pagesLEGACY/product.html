@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Услуги | Туроператор "Золотая Середина"</title>
+        <link rel="stylesheet" href="../static/styles.css" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <!-- Шапка сайта -->
+        <header>
+            <img src="../static/logo.png" alt="Логотип" />
+            <h1>Туроператор "Золотая Середина"</h1>
+            <button
+                type="button"
+                data-bs-toggle="modal"
+                id="cartButton"
+                class="cart-button"
+                data-bs-target="#cartModal"
+            >
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count">0</span>
+            </button>
+        </header>
+
+        <div class="nav-container">
+            <!-- Навигация -->
+            <nav>
+                <a href="/">Главная</a>
+                <a href="/products">Услуги</a>
+                <a href="/uslugi">Контакты</a>
+                <a href="/about">О нас</a>
+            </nav>
+
+            {{if .User}}
+            <div class="user-greeting">
+                <span class="greeting-text"
+                    >Привет, <strong>{{ .User }}</strong></span
+                >
+                <button
+                    class="logout-button"
+                    onclick="window.location.href='/logout'"
+                >
+                    Выйти
+                </button>
+            </div>
+            {{else}}
+            <!-- Кнопки Вход и Регистрация -->
+            {{if .User}}
+            <div class="user-greeting">
+                <span class="greeting-text"
+                    >Привет, <strong>{{ .User }}</strong></span
+                >
+                <button
+                    class="logout-button"
+                    onclick="window.location.href='/logout'"
+                >
+                    Выйти
+                </button>
+            </div>
+            {{else}}
+            <!-- Кнопки Вход и Регистрация -->
+            <div class="btn-container">
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#loginModal"
+                >
+                    Вход
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#registerModal"
+                >
+                    Регистрация
+                </button>
+            </div>
+
+            <!-- form action="/login" method="post">
+                    <input type="text" id="username" name="username" required placeholder="Логин">
+                    <input type="password" id="password" name="password" required placeholder="Пароль">
+                    <div class="buttonslogin">
+                        <button type="submit">Войти</button>
+                        <button type="button" onclick="window.location.href='/reg';">Регистрация</button>
+                    </div>
+                </form -->
+            {{end}}
+
+            <!-- form action="/login" method="post">
+                    <input type="text" id="username" name="username" required placeholder="Логин">
+                    <input type="password" id="password" name="password" required placeholder="Пароль">
+                    <div class="buttonslogin">
+                        <button type="submit">Войти</button>
+                        <button type="button" onclick="window.location.href='/reg';">Регистрация</button>
+                    </div>
+                </form -->
+            {{end}}
+        </div>
+
+        <!-- Основной контейнер -->
+        <div class="container">
+            <!-- Боковое меню -->
+            <aside class="sidebar">
+                <h3>Разделы</h3>
+                <a href="/petersburg">Экскурсия в Нижний Новгород</a>
+                <a href="/caucasus">Что посмотреть в области</a>
+                <a href="/golden_ring">Факты о Дивеево</a>
+            </aside>
+
+            <!-- Основной контент -->
+            <section class="main-content">
+                <div class="search-banner">
+                    <form action="/search" method="get" class="search-form">
+                        <input
+                            type="text"
+                            class="search-input"
+                            name="query"
+                            placeholder="Поиск туров..."
+                        />
+                        <button type="submit" class="search-button">
+                            Поиск
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card-container">
+                    {{ range $k, $v := .Products }}
+                    <div class="card">
+                        <img
+                            src="{{ .Image }}"
+                            alt="Соборование в Гефсиманском скиту"
+                        />
+                        <h3>{{ $v.Title }}</h3>
+                        <p>{{ $v.Description }}</p>
+                        <table>
+                            <tr>
+                                <td><strong>Дата:</strong></td>
+                                <td>{{ formatDate $v.Date }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Места отправления:</strong></td>
+                                <td>{{ $v.DepartureLocations}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Стоимость:</strong></td>
+                                <td>{{ $v.Price }} руб.</td>
+                            </tr>
+                        </table>
+                        <button
+                            onclick='addToCart({{ $k }}, "{{ $v.Title}}", {{ $v.Price }})'
+                        >
+                            Добавить в корзину
+                        </button>
+                    </div>
+                    {{ end }}
+                    <!--
+                    <div class="card">
+                        <img
+                            src="../static/tour1.png"
+                            alt="Соборование в Гефсиманском скиту"
+                        />
+                        <h3>Соборование в Гефсиманском пещерном скиту</h3>
+                        <p>
+                            Уникальная поездка для поклонников православных
+                            святынь.
+                        </p>
+                        <table>
+                            <tr>
+                                <td><strong>Дата:</strong></td>
+                                <td>14 декабря 2024</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Места отправления:</strong></td>
+                                <td>Зеленоград, Сходня</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Стоимость:</strong></td>
+                                <td>3 500 руб.</td>
+                            </tr>
+                        </table>
+                        <button>Подробнее</button>
+                    </div>
+
+                    <div class="card">
+                        <img
+                            src="../static/tour2.png"
+                            alt="Коломна и Крокодиловая ферма"
+                        />
+                        <h3>Новогодняя Коломна и Крокодиловая ферма</h3>
+                        <p>
+                            Отличный семейный тур на Новый год с необычными
+                            впечатлениями.
+                        </p>
+                        <table>
+                            <tr>
+                                <td><strong>Дата:</strong></td>
+                                <td>2 января 2025</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Места отправления:</strong></td>
+                                <td>Лобня, Долгопрудный</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Стоимость:</strong></td>
+                                <td>4 500 руб.</td>
+                            </tr>
+                        </table>
+                        <button>Подробнее</button>
+                    </div>
+
+                    <div class="card">
+                        <img
+                            src="../static/tour4.png"
+                            alt="'Соборование' в Гефсиманском скиту"
+                        />
+                        <h3>
+                            Новогодняя экскурсия в Тулу - город мастеров! Из
+                            Пушкино, Королева, Мытищ!
+                        </h3>
+                        <p>
+                            Обзорная экскурсия по историческому центру города,
+                            территории Тульского Кремля.
+                        </p>
+                        <table>
+                            <tr>
+                                <td><strong>Дата:</strong></td>
+                                <td>17 декабря 2024</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Места отправления:</strong></td>
+                                <td>Котельники, Сходня</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Стоимость:</strong></td>
+                                <td>6 500 руб.</td>
+                            </tr>
+                        </table>
+                        <button>Подробнее</button>
+                    </div>
+
+                    <div class="card">
+                        <img
+                            src="../static/tour5.png"
+                            alt="Соборование в Гефсиманском скиту"
+                        />
+                        <h3>
+                            Парк Патриот с новым музеем Танков и Авиации! Из
+                            Зеленограда, Сходни, Химок!
+                        </h3>
+                        <p>
+                            Зимний Фестиваль в Парке Патриот, осмотр Главного
+                            Храма Вооруженных Сил РФ
+                        </p>
+                        <table>
+                            <tr>
+                                <td><strong>Дата:</strong></td>
+                                <td>05 января 2025</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Места отправления:</strong></td>
+                                <td>Зеленоград, Сходня</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Стоимость:</strong></td>
+                                <td>3 500 руб.</td>
+                            </tr>
+                        </table>
+                        <button>Подробнее</button>
+                    </div>
+
+                    <div class="card">
+                        <img
+                            src="../static/tour6.png"
+                            alt="Соборование в Гефсиманском скиту"
+                        />
+                        <h3>
+                            Три монастыря: Волоколамск-Истра-Звенигород! Из
+                            Раменского, Жуковского!
+                        </h3>
+                        <p>
+                            Посещение Иосифо-Волоцкого монастыря в Волоколамске
+                        </p>
+                        <table>
+                            <tr>
+                                <td><strong>Дата:</strong></td>
+                                <td>06 января 2025</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Места отправления:</strong></td>
+                                <td>Зеленоград, Сходня</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Стоимость:</strong></td>
+                                <td>3 700 руб.</td>
+                            </tr>
+                        </table>
+                        <button>Подробнее</button>
+                    </div>
+
+                    <div class="card">
+                        <img
+                            src="../static/tour3.png"
+                            alt="Новогодняя Москва"
+                        />
+                        <h3>Праздничная экскурсия по Москве</h3>
+                        <p>
+                            Наслаждайтесь красотой столицы в новогодние
+                            праздники.
+                        </p>
+                        <table>
+                            <tr>
+                                <td><strong>Дата:</strong></td>
+                                <td>21 декабря 2024</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Места отправления:</strong></td>
+                                <td>Селятино, Троицк</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Стоимость:</strong></td>
+                                <td>2 500 руб.</td>
+                            </tr>
+                        </table>
+                        <button>Подробнее</button>
+                    </div>
+                    -->
+                </div>
+            </section>
+
+            <aside class="banners">
+                <h3>Наши партнёры</h3>
+                <a href="https://ostrovok.ru" target="_blank">
+                    <img src="../static/banner1.png" alt="Островок" />
+                </a>
+                <a href="https://aeroflot.ru" target="_blank">
+                    <img src="../static/banner2.png" alt="Аэрофлот" />
+                </a>
+                <a href="https://tourpom.ru" target="_blank">
+                    <img src="../static/banner3.png" alt="Турпомощь" />
+                </a>
+            </aside>
+        </div>
+
+        <!-- Подвал -->
+        <footer>
+            <p>© 2024 Туроператор "Золотая Середина". Все права защищены.</p>
+            <p>
+                <a href="mailto:zakaz.goldenmiddle@mail.ru"
+                    >zakaz.goldenmiddle@mail.ru</a
+                >
+                | Телефон: <a href="tel:+74952239276">8 (495) 223-92-76</a>
+            </p>
+        </footer>
+    </body>
+
+    <!-- Модальное окно Регистрация -->
+    <div
+        class="modal fade"
+        id="registerModal"
+        tabindex="-1"
+        aria-labelledby="registerModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">
+                        Регистрация
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/reg" method="post">
+                        <div class="mb-3">
+                            <label for="login" class="form-label">Логин</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="login"
+                                name="login"
+                                placeholder="Введите ваш логин"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="Введите ваш email"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label"
+                                >Пароль</label
+                            >
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Придумайте пароль"
+                            />
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            Зарегистрироваться
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="modal fade"
+        id="loginModal"
+        tabindex="-1"
+        aria-labelledby="loginModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Вход</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <form action="/login" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label"
+                                >Логин</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="username"
+                                name="username"
+                                placeholder="Логин"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label"
+                                >Пароль</label
+                            >
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Введите ваш пароль"
+                            />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            Войти
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="modal fade"
+        id="cartModal"
+        tabindex="-1"
+        aria-labelledby="cartModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Корзина</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="cartItems"></div>
+                    <div class="cart-summary">
+                        <div>
+                            <label>Суммарная стоимость:</label>
+                            <span id="totalCost">0.00 ₽</span>
+                        </div>
+                        <div>
+                            <label>Скидка:</label>
+                            <span id="discount">0.00 ₽</span>
+                        </div>
+                        <div>
+                            <label>Итоговая стоимость:</label>
+                            <span id="finalCost">0.00 ₽</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/cart.js"></script>
+</html>
