@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина | ТРЦ Атриум</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            max-height: 50px;
+            margin-right: 10px;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        .search-container input {
+            border-radius: 20px 0 0 20px;
+            border-right: none;
+        }
+        .search-container button {
+            border-radius: 0 20px 20px 0;
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+            color: #ffffff;
+        }
+        .cart-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fff;
+        }
+        .cart-item img {
+            max-width: 100px;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+        .cart-item-details {
+            flex: 1;
+        }
+        .cart-item-details h4 {
+            font-size: 1.2rem;
+            margin: 0 0 0 10px;
+            color: #333;
+        }
+        .cart-item-details p {
+            margin: 0 0 5px;
+            color: #666;
+        }
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cart-total {
+            text-align: right;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            color: #333;
+        }
+        .cart-icon {
+            position: relative;
+            margin-left: 15px;
+        }
+        .cart-icon .badge {
+            position: absolute;
+            top: -10px;
+            right: -15px;
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-container">
+        <div class="logo-container">
+            <img src="static/logo.png" alt="Логотип ТРЦ Атриум">
+            <h1>ТРЦ Атриум</h1>
+        </div>
+        <div class="btn-container">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Вход</button>
+            <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">Регистрация</button>
+            <a href="cart.html" class="cart-icon">
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 0 0 0 1 1 0 0 1 0-2z"/>
+                </svg>
+                <span class="badge rounded-pill" id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="nav-container">
+        <nav class="nav-menu">
+            <a href="index">Главная</a>
+            <a href="catalog">Каталог</a>
+            <a href="contacts">Контакты</a>
+            <a href="about">О нас</a>
+            <a href="guestbook">Гост</a>
+        </nav>
+        <div class="search-container">
+            <input type="text" class="form-control" id="searchInput" placeholder="Поиск по сайту..." required>
+            <button type="button" class="btn btn-primary" onclick="performSearch()">Найти</button>
+        </div>
+    </div>
+
+    <main class="content">
+        <h1>Корзина</h1>
+        <section class="cart-container" id="cart-items"></section>
+        <div class="cart-total" id="cart-total"></div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 ТРЦ Атриум. Все права защищены.</p>
+        <div>
+            <a href="https://vk.com">ВКонтакте</a>
+            <a href="https://t.me">Телеграм</a>
+            <a href="https://instagram.com">Инстаграм</a>
+        </div>
+    </footer>
+
+    <!-- Модальные окна для входа и регистрации -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Вход</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="submit_login.php" method="post">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" name="email" placeholder="Введите ваш email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Введите ваш пароль" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Войти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerModalLabel">Регистрация</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="submit_register.php" method="post">
+                            <div class="mb-3">
+                                <label for="registerName" class="form-label">Имя</label>
+                                <input type="text" class="form-control" id="registerName" name="name" placeholder="Введите ваше имя" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="registerEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Введите ваш email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="registerPassword" class="form-label">Пароль</label>
+                                <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Придумайте пароль" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Корзина
+        function loadCart() {
+            return JSON.parse(localStorage.getItem('cart') || '{}');
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCart();
+        }
+
+        function updateCartCount() {
+            const cart = loadCart();
+            const count = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        function updateCart() {
+            const cart = loadCart();
+            const container = document.getElementById('cart-items');
+            const totalContainer = document.getElementById('cart-total');
+            container.innerHTML = '';
+            let total = 0;
+
+            if (Object.keys(cart).length === 0) {
+                container.innerHTML = '<p class="text-muted">Корзина пуста.</p>';
+                totalContainer.innerHTML = '';
+                updateCartCount();
+                return;
+            }
+
+            for (const [movieId, item] of Object.entries(cart)) {
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <img src="static/movies/placeholder.jpg" alt="${item.title}">
+                    <div class="cart-item-details">
+                        <h4>${item.title}</h4>
+                        <p>Сеанс: ${item.showtime}</p>
+                        <p>Цена: ${item.price} ₽</p>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity(${movieId}, -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity(${movieId}, 1)">+</button>
+                    </div>`;
+                container.appendChild(div);
+                total += item.quantity * item.price;
+            }
+
+            totalContainer.innerHTML = `
+                <p>Итого: ${total.toFixed(2)} ₽</p>
+                <button class="btn btn-primary">Оформить заказ</button>`;
+            updateCartCount();
+        }
+
+        function updateQuantity(movieId, delta) {
+            const cart = loadCart();
+            if (cart[movieId]) {
+                cart[movieId].quantity = Math.max(0, cart[movieId].quantity + delta);
+                if (cart[movieId].quantity === 0) {
+                    delete cart[movieId];
+                }
+                saveCart(cart);
+            }
+        }
+
+        // Поиск
+        const searchData = [
+            { title: "Главная", description: "Главная страница ТРЦ Атриум", url: "index" },
+            { title: "Каталог", description: "Список товаров и услуг", url: "catalog" },
+            { title: "Контакты", description: "Контактная информация ТРЦ", url: "contacts" },
+            { title: "О нас", description: "Информация о ТРЦ Атриум", url: "about" },
+            { title: "Гостевая книга", description: "Оставьте ваш отзыв", url: "guestbook" },
+            { title: "KAPO Max", description: "Современный кинотеатр с IMAX", url: "cinema_item" },
+            { title: "Cinema Star", description: "Уютный кинотеатр с 3D и VIP-зонами", url: "cinema_item" },
+            { title: "Luxor Cinema", description: "Кинотеатр премиум-класса с 4K-экранами", url: "cinema_item" },
+            { title: "Silver Screen", description: "Семейный кинотеатр с детскими фильмами", url: "cinema_item" },
+            { title: "Магазины", description: "Более 50 магазинов с одеждой и электроникой", url: "shops_item" },
+            { title: "Еда", description: "Рестораны и кафе с кухнями мира", url: "food_item" },
+            { title: "Детям", description: "Детские зоны и развлечения", url: "kids_item" }
+        ];
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultsContainer = document.createElement('div');
+            resultsContainer.className = 'container my-4';
+            resultsContainer.id = 'searchResults';
+            resultsContainer.innerHTML = '<h2>Результаты поиска</h2><div id="resultsList" class="list-group"></div>';
+
+            const existingResults = document.getElementById('searchResults');
+            if (existingResults) existingResults.remove();
+
+            document.querySelector('footer').before(resultsContainer);
+            const resultsList = document.getElementById('resultsList');
+
+            if (query.trim() === '') {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            const results = searchData.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.description.toLowerCase().includes(query)
+            );
+
+            if (results.length === 0) {
+                resultsList.innerHTML = '<p class="text-muted">Ничего не найдено.</p>';
+            } else {
+                results.forEach(item => {
+                    const resultItem = document.createElement('a');
+                    resultItem.href = item.url;
+                    resultItem.className = 'list-group-item list-group-item-action';
+                    resultItem.innerHTML = `<h5 class="mb-1">${item.title}</h5><p class="mb-1">${item.description}</p>`;
+                    resultsList.appendChild(resultItem);
+                });
+            }
+
+            resultsContainer.style.display = 'block';
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Инициализация корзины
+        updateCart();
+    </script>
+</body>
+</html>

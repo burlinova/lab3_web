@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кинотеатр | ТРЦ Атриум</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Кинотеатры | ТРЦ Атриум</title>
+    <link rel="stylesheet" href="static/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Стили для шапки и навигации, как на главной странице */
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -51,48 +50,171 @@
             background-color: #0056b3;
             color: #ffffff;
         }
-        /* Стили для карточки KAPO Max */
+        .cinemas-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-rows: auto auto;
+            gap: 20px;
+            margin: 20px 0;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cinema-card:nth-child(4) {
+            grid-column: 1;
+            grid-row: 2;
+        }
         .cinema-card {
             border: 1px solid #e0e0e0;
             border-radius: 10px;
             padding: 15px;
-            margin: 20px 0;
+            text-align: center;
             cursor: pointer;
-            transition: box-shadow 0.3s;
+            transition: box-shadow 0.3s, transform 0.2s;
+            background-color: #fff;
         }
         .cinema-card:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+        .cinema-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
         }
         .cinema-card h3 {
-            margin-top: 0;
+            font-size: 1.25rem;
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .cinema-card p {
+            font-size: 0.95rem;
+            margin: 0 0 10px;
+            color: #666;
+        }
+        .cinema-card .btn-link {
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .short-desc {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .short-desc img {
+            max-width: 300px;
+            border-radius: 10px;
+        }
+        .short-desc p {
+            flex: 1;
+            min-width: 300px;
+            margin: 0;
+            font-size: 1rem;
+            color: #444;
+        }
+        .main-image {
+            max-width: 100%;
+            height: auto;
+        }
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .movies-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .movie-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            background-color: #fff;
+        }
+        .movie-card img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .movie-card h4 {
+            font-size: 1rem;
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .movie-card .counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .movie-modal img {
+            max-width: 200px;
+            float: left;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
+        .movie-modal .movie-details {
+            overflow: hidden;
+        }
+        .cart-icon {
+            position: relative;
+            margin-left: 15px;
+        }
+        .cart-icon .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #dc3545;
+        }
+        @media (max-width: 576px) {
+            .movie-modal img {
+                float: none;
+                max-width: 100%;
+                margin-right: 0;
+            }
+            .movies-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Шапка -->
     <header class="header-container">
         <div class="logo-container">
-            <img src="logo.png" alt="Логотип ТРЦ Атриум">
+            <img src="static/logo.png" alt="Логотип ТРЦ Атриум">
             <h1>ТРЦ Атриум</h1>
         </div>
         <div class="btn-container">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
-                Вход
-            </button>
-            <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">
-                Регистрация
-            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Вход</button>
+            <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">Регистрация</button>
+            <a href="cart.html" class="cart-icon">
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+                <span class="badge rounded-pill" id="cart-count">0</span>
+            </a>
         </div>
     </header>
 
-    <!-- Навигация и поиск -->
     <div class="nav-container">
         <nav class="nav-menu">
-            <a href="index.html">Главная</a>
-            <a href="catalog.html">Каталог</a>
-            <a href="contacts.html">Контакты</a>
-            <a href="about.html">О нас</a>
-            <a href="guestbook.html">Гостевая книга</a>
+            <a href="index">Главная</a>
+            <a href="catalog">Каталог</a>
+            <a href="contacts">Контакты</a>
+            <a href="about">О нас</a>
+            <a href="guestbook">Гостевая книга</a>
         </nav>
         <div class="search-container">
             <input type="text" class="form-control" id="searchInput" placeholder="Поиск по сайту..." aria-label="Поиск">
@@ -100,40 +222,32 @@
         </div>
     </div>
 
-    <!-- Основной контент -->
     <main class="content">
-        <h1>Кинотеатр ТРЦ Атриум</h1>
+        <h1>Кинотеатры ТРЦ Атриум</h1>
         <section class="main-content">
-            <!-- Карточка KAPO Max -->
-            <div class="cinema-card" data-bs-toggle="modal" data-bs-target="#kapoMaxModal">
-                <h3>KAPO Max</h3>
-                <p><strong>Время работы:</strong> 10:00–23:00 (ежедневно)</p>
-                <p>Современный мультиплекс с IMAX и VIP-зонами для незабываемого кинопросмотра.</p>
-                <button type="button" class="btn btn-link">Подробнее</button>
+            <div class="cinemas-container">
+                {{ range $_, $v := .Data}}
+                <div class="cinema-card" data-bs-toggle="modal" data-bs-target="#cinema{{$v.ID}}Modal">
+                    <img src="static/{{$v.ImageURL}}" alt="{{$v.Name}}">
+                    <h3>{{$v.Name}}</h3>
+                    <p>{{$v.ShortDescription}}</p>
+                    <button type="button" class="btn btn-link">Подробнее</button>
+                </div>
+                {{end}}
             </div>
 
             <h2>Краткое описание</h2>
-            <p class="short-desc">
-                <a href="cinema_full.jpg" target="_blank">
-                    <img src="кино.jpg" alt="Кинотеатр" class="main-image">
+            <div class="short-desc">
+                <a href="static/кино.jpg" target="_blank">
+                    <img src="static/кино.jpg" alt="Кинотеатр" class="main-image">
                 </a>
-                Современный кинотеатр с передовыми технологиями для незабываемого кинопросмотра.
-            </p>
-            <h2>Характеристики</h2>
-            <ul>
-                <li>Количество залов: 8</li>
-                <li>Типы экранов: 2D, 3D, IMAX</li>
-                <li>Вместимость: до 300 мест в зале</li>
-                <li>Особенности: VIP-зона, кафе-бар</li>
-            </ul>
-            <h2>Подробное описание</h2>
-            <p class="detailed-desc">
-                Кинотеатр ТРЦ Атриум оснащён проекторами высокого разрешения и звуковой системой Dolby Atmos. Удобные кресла, просторные залы и регулярные кинопремьеры делают его идеальным местом для отдыха всей семьей. VIP-зона предлагает повышенный комфорт с индивидуальным обслуживанием.
-            </p>
+                <p>
+                    Насладитесь вечером в кинотеатрах ТРЦ Атриум! KAPO Max, Cinema Star, Luxor Cinema и Silver Screen предлагают IMAX, 3D, Dolby Atmos и уютные VIP-залы. Перекусите в кафе-баре, купите билеты онлайн и проведите незабываемое время с друзьями или семьёй!
+                </p>
+            </div>
         </section>
     </main>
 
-    <!-- Футер -->
     <footer class="footer">
         <p>© 2025 ТРЦ Атриум. Все права защищены.</p>
         <div>
@@ -143,35 +257,33 @@
         </div>
     </footer>
 
-    <!-- Модальное окно KAPO Max -->
-    <div class="modal fade" id="kapoMaxModal" tabindex="-1" aria-labelledby="kapoMaxModalLabel" aria-hidden="true">
+    <!-- Модальные окна кинотеатров -->
+    {{ range $_, $v := .Data}}
+    <div class="modal fade cinema-modal" id="cinema{{$v.ID}}Modal" tabindex="-1" aria-labelledby="cinema{{$v.ID}}ModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="kapoMaxModalLabel">KAPO Max в ТРЦ Атриум</h5>
+                    <h5 class="modal-title" id="cinema{{$v.ID}}ModalLabel">{{$v.Name}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h3>О кинотеатре KAPO Max</h3>
-                    <p>KAPO Max — это двухэтажный мультиплекс сети «Каро» в ТРЦ Атриум, расположенный по адресу: Москва, Земляной Вал, 33. Кинотеатр предлагает передовые технологии и комфорт для всех любителей кино.</p>
+                    <img src="static/{{$v.ImageURL}}" alt="{{$v.Name}}" class="img-fluid mb-3">
+                    <h3>О кинотеатре</h3>
+                    <p>{{$v.DetailedDescription}}</p>
                     <h4>Характеристики</h4>
                     <ul>
-                        <li><strong>Залы:</strong> 8 залов, включая 2 VIP-зала с регулируемыми креслами с электроприводом и столиками.</li>
-                        <li><strong>Экраны:</strong> 2D, 3D, IMAX с высоким разрешением.</li>
-                        <li><strong>Звук:</strong> Dolby Atmos для полного погружения.</li>
-                        <li><strong>Вместимость:</strong> До 300 мест в стандартных залах, до 50 в VIP-залах.</li>
-                        <li><strong>Услуги:</strong> Кафе-бар, снэк-бары, онлайн-покупка билетов.</li>
+                        {{ range $key, $value := $v.Characteristic}}
+                        <li><strong>{{$key}}:</strong> {{$value}}</li>
+                        {{end}}
                     </ul>
                     <h4>Время работы</h4>
-                    <p>Ежедневно с 10:00 до 23:00. Сеансы могут начинаться раньше или заканчиваться позже в зависимости от расписания.</p>
+                    <p>{{$v.WorkingHours}}</p>
                     <h4>Особенности</h4>
-                    <p>VIP-зоны предлагают индивидуальное обслуживание, удобные кресла и эксклюзивное меню. Кинотеатр регулярно проводит премьеры и специальные показы. Однако, согласно отзывам, иногда возникают технические проблемы с оборудованием, такие как посторонние изображения на экране, что может отвлекать от просмотра.</p>[](https://www.afisha.ru/msk/cinema/karo-7-atrium-2849/)
+                    <p>{{$v.Features}}</p>
                     <h4>Советы посетителям</h4>
-                    <ul>
-                        <li>Покупайте билеты онлайн через Яндекс.Афишу или сайт кинотеатра, чтобы избежать очередей.</li>
-                        <li>Приходите за 15–20 минут до сеанса, так как возможны проверки билетов.</li>
-                        <li>Обратите внимание на возрастные ограничения: для фильмов 18+ могут потребовать паспорт.</li>[](https://www.tripadvisor.com/Attraction_Review-g298485-d7113673-Reviews-Cinema_Kinomax-Ryazan_Ryazan_Oblast_Central_Russia.html)
-                    </ul>
+                    <p>{{$v.VisitorTips}}</p>
+                    <h4>Фильмы в прокате</h4>
+                    <div class="movies-container" id="movies-{{$v.ID}}"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -179,6 +291,7 @@
             </div>
         </div>
     </div>
+    {{end}}
 
     <!-- Модальные окна для входа и регистрации -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -235,17 +348,148 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Predefined searchable items
+        // Корзина
+        function loadCart() {
+            return JSON.parse(localStorage.getItem('cart') || '{}');
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const cart = loadCart();
+            const count = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        function addToCart(movieId, title, showtime, cinemaId, price) {
+            const cart = loadCart();
+            if (!cart[movieId]) {
+                cart[movieId] = { quantity: 1, title, showtime, cinemaId, price };
+            } else {
+                cart[movieId].quantity++;
+            }
+            saveCart(cart);
+        }
+
+        function updateQuantity(movieId, delta) {
+            const cart = loadCart();
+            if (cart[movieId]) {
+                cart[movieId].quantity = Math.max(0, cart[movieId].quantity + delta);
+                if (cart[movieId].quantity === 0) {
+                    delete cart[movieId];
+                }
+                saveCart(cart);
+                renderMovieCard(movieId);
+            }
+        }
+
+        function renderMovieCard(movieId) {
+            const cart = loadCart();
+            const container = document.querySelector(`#movie-card-${movieId}`);
+            if (!container) return;
+            const item = cart[movieId];
+            if (item && item.quantity > 0) {
+                container.querySelector('.ticket-control').innerHTML = `
+                    <div class="counter">
+                        <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity(${movieId}, -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity(${movieId}, 1)">+</button>
+                    </div>`;
+            } else {
+                container.querySelector('.ticket-control').innerHTML = `
+                    <button class="btn btn-primary btn-sm" onclick="addToCart(${movieId}, '${container.dataset.title}', '${container.dataset.showtime}', ${container.dataset.cinemaId}, ${container.dataset.price})">Купить билет</button>`;
+            }
+        }
+
+        // Загрузка фильмов
+        function loadMovies(cinemaId, containerId) {
+            fetch(`/api/movies?cinema_id=${cinemaId}`)
+                .then(response => response.json())
+                .then(movies => {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = '';
+                    movies.forEach(movie => {
+                        const div = document.createElement('div');
+                        div.className = 'movie-card';
+                        div.id = `movie-card-${movie.id}`;
+                        div.dataset.title = movie.title;
+                        div.dataset.showtime = movie.showtime;
+                        div.dataset.cinemaId = cinemaId;
+                        div.dataset.price = movie.price;
+                        div.innerHTML = `
+                            <img src="static/${movie.image_url}" alt="${movie.title}">
+                            <h4>${movie.title}</h4>
+                            <p>Сеанс: ${movie.showtime}</p>
+                            <p>Цена: ${movie.price} ₽</p>
+                            <div class="ticket-control"></div>
+                            <button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#movie${movie.id}Modal">Подробнее</button>`;
+                        container.appendChild(div);
+                        renderMovieCard(movie.id);
+
+                        // Создание модального окна фильма
+                        const modal = document.createElement('div');
+                        modal.className = 'modal fade';
+                        modal.id = `movie${movie.id}Modal`;
+                        modal.tabIndex = -1;
+                        modal.setAttribute('aria-labelledby', `movie${movie.id}ModalLabel`);
+                        modal.setAttribute('aria-hidden', 'true');
+                        modal.innerHTML = `
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="movie${movie.id}ModalLabel">${movie.title}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body movie-modal">
+                                        <img src="static/${movie.image_url}" alt="${movie.title}">
+                                        <div class="movie-details">
+                                            <h3>${movie.title}</h3>
+                                            <p><strong>Жанр:</strong> ${movie.genre}</p>
+                                            <p><strong>Год:</strong> ${movie.year}</p>
+                                            <p><strong>Страна:</strong> ${movie.country}</p>
+                                            <p><strong>Сеанс:</strong> ${movie.showtime}</p>
+                                            <p><strong>Цена:</strong> ${movie.price} ₽</p>
+                                            <h4>Описание</h4>
+                                            <p>${movie.description}</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                    </div>
+                                </div>
+                            </div>`;
+                        document.body.appendChild(modal);
+                    });
+                })
+                .catch(error => console.error('Error loading movies:', error));
+        }
+
+        // Модальные окна фильмов
+        document.addEventListener('show.bs.modal', event => {
+            const modal = event.target;
+            if (modal.classList.contains('cinema-modal')) {
+                const cinemaId = modal.id.replace('cinema', '').replace('Modal', '');
+                loadMovies(cinemaId, `movies-${cinemaId}`);
+            }
+        });
+
+        // Поиск
         const searchData = [
-            { title: "Главная", description: "Главная страница ТРЦ Атриум", url: "index.html" },
-            { title: "Каталог", description: "Список магазинов и услуг", url: "catalog.html" },
-            { title: "Контакты", description: "Контактная информация ТРЦ", url: "contacts.html" },
-            { title: "О нас", description: "Информация о ТРЦ Атриум", url: "about.html" },
-            { title: "Гостевая книга", description: "Оставьте ваш отзыв", url: "guestbook.html" },
-            { title: "Кинотеатр", description: "Современный кинотеатр с IMAX", url: "cinema_item.html" },
-            { title: "Магазины", description: "Более 50 магазинов с одеждой и электроникой", url: "shops_item.html" },
-            { title: "Еда", description: "Рестораны и кафе с кухнями мира", url: "food_item.html" },
-            { title: "Детям", description: "Детские зоны и развлечения", url: "kids_item.html" }
+            { title: "Главная", description: "Главная страница ТРЦ Атриум", url: "index" },
+            { title: "Каталог", description: "Список магазинов и услуг", url: "catalog" },
+            { title: "Контакты", description: "Контактная информация ТРЦ", url: "contacts" },
+            { title: "О нас", description: "Информация о ТРЦ Атриум", url: "about" },
+            { title: "Гостевая книга", description: "Оставьте ваш отзыв", url: "guestbook" },
+            { title: "KAPO Max", description: "Современный кинотеатр с IMAX", url: "cinema_item" },
+            { title: "Cinema Star", description: "Уютный кинотеатр с 3D и VIP-зонами", url: "cinema_item" },
+            { title: "Luxor Cinema", description: "Кинотеатр премиум-класса с 4K-экранами", url: "cinema_item" },
+            { title: "Silver Screen", description: "Семейный кинотеатр с детскими сеансами", url: "cinema_item" },
+            { title: "Магазины", description: "Более 50 магазинов с одеждой и электроникой", url: "shops_item" },
+            { title: "Еда", description: "Рестораны и кафе с кухнями мира", url: "food_item" },
+            { title: "Детям", description: "Детские зоны и развлечения", url: "kids_item" }
         ];
 
         function performSearch() {
@@ -255,11 +499,9 @@
             resultsContainer.id = 'searchResults';
             resultsContainer.innerHTML = '<h2>Результаты поиска</h2><div id="resultsList" class="list-group"></div>';
 
-            // Удаляем предыдущие результаты, если есть
             const existingResults = document.getElementById('searchResults');
             if (existingResults) existingResults.remove();
 
-            // Вставляем результаты перед футером
             document.querySelector('footer').before(resultsContainer);
             const resultsList = document.getElementById('resultsList');
 
@@ -288,12 +530,14 @@
             resultsContainer.style.display = 'block';
         }
 
-        // Trigger search on Enter key press
         document.getElementById('searchInput').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 performSearch();
             }
         });
+
+        // Инициализация корзины
+        updateCartCount();
     </script>
 </body>
 </html>

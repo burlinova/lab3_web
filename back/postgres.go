@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -10,10 +11,13 @@ var pg *pgxpool.Pool
 
 func init() {
 	var err error
-	pg, err = pgxpool.New(context.TODO(), "postgres://postgres:pass@localhost:5432/postgres?sslmode=disable")
+	pg, err = pgxpool.New(context.TODO(), "postgres://aysa:pass@localhost:5432/postgres")
 	if err != nil {
 		panic(err)
 	}
+	var kaka string
+	pg.QueryRow(context.TODO(), "SELECT name FROM kids_zones").Scan(&kaka)
+	fmt.Printf("%+v\n", kaka)
 }
 
 func PGUserCreate(username, password, email string) error {

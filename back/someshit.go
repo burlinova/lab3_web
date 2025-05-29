@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 )
 
 // PGFindUsers ищет пользователей по email
@@ -64,7 +65,7 @@ func PGFindShops(name string) ([]Shop, error) {
 	for rows.Next() {
 		if err = rows.Scan(&shop.ID, &shop.CategoryID, &shop.Name, &shop.ShortDescription,
 			&shop.DetailedDescription, &shop.WorkingHours, &shop.Floor, &shop.ImageURL,
-			&shop.Features, &shop.VisitorTips); err != nil {
+			&shop.Features, &shop.VisitorTips, &shop.Characteristic); err != nil {
 			return nil, err
 		}
 		shops = append(shops, shop)
@@ -76,7 +77,7 @@ func PGFindShops(name string) ([]Shop, error) {
 func PGFindFoodItems(name string) ([]FoodItem, error) {
 	rows, err := pg.Query(
 		context.TODO(),
-		`SELECT * FROM food_items WHERE (name ILIKE $1) OR ($1 = '')`,
+		`SELECT * FROM food WHERE (name ILIKE $1) OR ($1 = '')`,
 		"%"+name+"%")
 	if err != nil {
 		return nil, err
@@ -88,7 +89,7 @@ func PGFindFoodItems(name string) ([]FoodItem, error) {
 	for rows.Next() {
 		if err = rows.Scan(&foodItem.ID, &foodItem.CategoryID, &foodItem.Name, &foodItem.ShortDescription,
 			&foodItem.DetailedDescription, &foodItem.WorkingHours, &foodItem.Floor, &foodItem.ImageURL,
-			&foodItem.CuisineType, &foodItem.Features, &foodItem.VisitorTips); err != nil {
+			&foodItem.CuisineType, &foodItem.Features, &foodItem.VisitorTips, &foodItem.Characteristic); err != nil {
 			return nil, err
 		}
 		foodItems = append(foodItems, foodItem)
@@ -110,9 +111,10 @@ func PGFindKidsZones(name string) ([]KidsZone, error) {
 	var kidsZones []KidsZone
 	var kidsZone KidsZone
 	for rows.Next() {
-		if err = rows.Scan(&kidsZone.ID, &kidsZone.CategoryID, &kidsZone.Name, &kidsZone.ShortDescription, &kidsZone.DetailedDescription, &kidsZone.WorkingHours, &kidsZone.Floor, &kidsZone.ImageURL, &kidsZone.AgeRange, &kidsZone.Features, &kidsZone.VisitorTips); err != nil {
+		if err = rows.Scan(&kidsZone.ID, &kidsZone.CategoryID, &kidsZone.Name, &kidsZone.ShortDescription, &kidsZone.DetailedDescription, &kidsZone.WorkingHours, &kidsZone.Floor, &kidsZone.ImageURL, &kidsZone.AgeRange, &kidsZone.Features, &kidsZone.VisitorTips, &kidsZone.Characteristic); err != nil {
 			return nil, err
 		}
+		fmt.Printf("kids_zone: %+v\n", kidsZone)
 		kidsZones = append(kidsZones, kidsZone)
 	}
 	return kidsZones, nil
@@ -122,7 +124,7 @@ func PGFindKidsZones(name string) ([]KidsZone, error) {
 func PGFindCinemas(name string) ([]Cinema, error) {
 	rows, err := pg.Query(
 		context.TODO(),
-		`SELECT * FROM cinemas WHERE (name ILIKE $name) OR ($1 = '')`,
+		`SELECT * FROM cinemas WHERE (name ILIKE $1) OR ($1 = '');`,
 		"%"+name+"%")
 	if err != nil {
 		return nil, err
@@ -134,12 +136,35 @@ func PGFindCinemas(name string) ([]Cinema, error) {
 	for rows.Next() {
 		if err = rows.Scan(&cinema.ID, &cinema.CategoryID, &cinema.Name, &cinema.ShortDescription,
 			&cinema.DetailedDescription, &cinema.WorkingHours, &cinema.Floor, &cinema.ImageURL,
-			&cinema.Features, &cinema.VisitorTips); err != nil {
+			&cinema.Features, &cinema.VisitorTips, &cinema.Characteristic); err != nil {
 			return nil, err
 		}
 		cinemas = append(cinemas, cinema)
 	}
 	return cinemas, nil
+}
+
+// PGFindCinemas ищет фильм по имени
+func PGFindMovies(title string) ([]Movies, error) {
+	rows, err := pg.Query(
+		context.TODO(),
+		`SELECT * FROM movies WHERE (name ILIKE $1) OR ($1 = '');`,
+		"%"+title+"%")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var movies []Movies
+	var movie Movies
+	for rows.Next() {
+		if err = rows.Scan(&movie.ID, &movie.CinemaID, &movie.Title, &movie.Genre,
+			&movie.Year, &movie.Country); err != nil {
+			return nil, err
+		}
+		movies = append(movies, movie)
+	}
+	return movies, nil
 }
 
 // PGFindGuestbook ищет записи гостевой книги по комментарию
